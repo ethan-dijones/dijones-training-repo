@@ -10,7 +10,7 @@ Welcome to the team! Add your name below as your first Git exercise.
 ### Students
 
 - [Example Student] - Started: May 2026 - GitHub: [@exampleuser](https://github.com/exampleuser)
-
+ethan-dijones - Started May 2026 - GitHub: [@ethan-dijones] (http://github.com/ethan-dijones)
 <!-- Add your name above this line -->
 
 ---
