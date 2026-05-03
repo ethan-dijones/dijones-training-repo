@@ -38,4 +38,13 @@ d-----         4/05/2026   9:42 AM                w1test                        
 
 ### touch (Create File)
 - What it does: Creates a new empty file
-- File I created: [name]
+- File I created: [PS C:\Users\EthanChessell\dijones-training-repo\exercises\week1> New-Item w1testfile            
+               
+
+    Directory: C:\Users\EthanChessell\dijones-training-repo\exercises\week1
+
+
+Mode                 LastWriteTime         Length Name                                                                                                        
+----                 -------------         ------ ----                                                                                                        
+-a----         4/05/2026   9:49 AM              0 w1testfile                                                                                                  
+]
