@@ -1,48 +1,105 @@
-/* Create a modern color scheme with primary and accent colors */
 :root {
-  --primary-color: #2563eb;
-  --accent-color: #f59e0b;
-  --text-color: #1f2937;
-  --bg-color: #f9fafb;
+  --primary: #0f4c81;
+  --secondary: #1e88e5;
+  --accent: #00a896;
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --text-primary: #1f2933;
+  --text-secondary: #52606d;
+  --success: #2e7d32;
+  --warning: #f9a825;
+  --error: #c62828;
+  --border: #d9e2ec;
+  --shadow: 0 10px 24px rgba(15, 76, 129, 0.08);
 }
 
-/* Style FAQ questions as clickable-looking elements with hover effect */
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+}
+
+header {
+  text-align: center;
+  padding: 44px 20px;
+  background: linear-gradient(140deg, var(--primary), var(--secondary));
+  border-bottom: none;
+  color: var(--surface);
+}
+
+header h1 {
+  color: var(--surface);
+  margin-bottom: 8px;
+}
+
+header p {
+  color: #d7e9fb;
+}
+
+.faq-section {
+  max-width: 880px;
+  margin: 36px auto;
+  padding: 0 20px;
+}
+
+.faq-section h2 {
+  color: var(--primary);
+  margin-bottom: 24px;
+}
+
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background-color: var(--surface);
+  box-shadow: var(--shadow);
+}
+
 .faq-question {
+  background-color: #ecf4fc;
+  color: var(--primary);
+  font-weight: 700;
+  padding: 14px 16px;
   cursor: pointer;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
-  background-color: white;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .faq-question:hover {
-  background-color: var(--primary-color);
-  color: white;
-  transform: translateY(-2px);
+  background-color: var(--accent);
+  color: var(--surface);
 }
 
-/* Add box shadow to FAQ items for depth */
-.faq-item {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background-color: white;
+.faq-answer {
+  padding: 14px 16px;
+  background-color: var(--surface);
+  color: var(--text-secondary);
 }
 
-/* Make layout responsive for mobile devices */
+footer {
+  background-color: var(--text-primary);
+  color: var(--surface);
+}
+
+footer a {
+  color: #84d8cf;
+}
+
+footer a:hover {
+  color: var(--surface);
+}
+
 @media (max-width: 768px) {
-  body {
-    padding: 1rem;
+  header {
+    padding: 34px 16px;
   }
-  
-  .faq-item {
-    margin-bottom: 0.75rem;
-    padding: 0.75rem;
+
+  header h1 {
+    font-size: 2rem;
   }
-  
-  .faq-question {
-    padding: 0.75rem;
-    font-size: 0.95rem;
+
+  .faq-section {
+    margin: 24px auto;
+    padding: 0 14px;
   }
 }
