@@ -1,0 +1,1 @@
+This add function takes two numbers as input and returns their sum. In this example, we are adding 5 and 3, which will output 8.
