@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket Priority Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="background-mesh" aria-hidden="true"></div>
+
+  <main class="layout">
+    <section class="panel input-panel">
+      <p class="eyebrow">Support Ops Toolkit</p>
+      <h1>Ticket Priority Calculator</h1>
+      <p class="subhead">Score incoming tickets in seconds with keyword signals, urgency, and impact level.</p>
+
+      <form id="priorityForm" novalidate>
+        <label for="ticketTitle">Ticket title</label>
+        <input id="ticketTitle" name="ticketTitle" type="text" placeholder="Login issues for finance team" required />
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5" placeholder="Describe what is happening..." required></textarea>
+
+        <label for="urgency">Urgency level</label>
+        <select id="urgency" name="urgency" required>
+          <option value="">Choose urgency</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="critical">Critical</option>
+        </select>
+
+        <label for="affectedUsers">Affected users count</label>
+        <input id="affectedUsers" name="affectedUsers" type="number" min="1" placeholder="e.g. 27" required />
+
+        <div class="button-row">
+          <button type="submit" class="btn-primary">Calculate Priority</button>
+          <button type="button" id="clearHistoryBtn" class="btn-ghost">Clear History</button>
+        </div>
+
+        <div id="formErrors" class="form-errors" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section class="panel output-panel">
+      <h2>Result</h2>
+      <div id="resultCard" class="result-card neutral">
+        <p class="result-label">Priority Score</p>
+        <p id="scoreValue" class="score-value">--</p>
+        <p id="priorityLevel" class="priority-level">Waiting for input</p>
+        <p id="recommendedAction" class="recommended-action">Submit ticket details to calculate recommended action.</p>
+      </div>
+
+      <h2>History (Last 5)</h2>
+      <ul id="historyList" class="history-list"></ul>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

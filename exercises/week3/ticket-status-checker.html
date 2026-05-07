@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helpdesk Ticket Status Checker</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 90%;
+      padding: 40px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      color: #333;
+      font-size: 28px;
+    }
+
+    .header p {
+      color: #666;
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 12px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    button {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .result-area {
+      margin-top: 32px;
+      min-height: 100px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 24px;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .ticket-card {
+      background: #f9f9f9;
+      border-radius: 12px;
+      padding: 24px;
+      border-left: 5px solid #4caf50;
+      animation: slideIn 0.4s ease;
+    }
+
+    .ticket-card.warning {
+      border-left-color: #ff9800;
+      background: #fff8f0;
+    }
+
+    .ticket-card.error {
+      border-left-color: #f44336;
+      background: #fff5f5;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 12px;
+    }
+
+    .ticket-id {
+      font-weight: 700;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .ticket-status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-open {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .status-in-progress {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .status-resolved {
+      background: #e8f5e9;
+      color: #388e3c;
+    }
+
+    .status-closed {
+      background: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    .ticket-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .ticket-label {
+      font-weight: 600;
+      color: #667eea;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .ticket-value {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .error-message {
+      background: #f44336;
+      color: white;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .success-message {
+      background: #4caf50;
+      color: white;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .demo-tickets {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px solid #e0e0e0;
+    }
+
+    .demo-tickets h3 {
+      color: #666;
+      font-size: 13px;
+      text-transform: uppercase;
+      margin: 0 0 12px;
+    }
+
+    .demo-tickets p {
+      color: #999;
+      font-size: 12px;
+      margin: 6px 0;
+    }
+
+    .demo-tickets code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎫 Ticket Status Checker</h1>
+      <p>Enter a ticket ID to check its current status</p>
+    </div>
+
+    <form id="statusForm" onsubmit="handleCheckStatus(event)">
+      <div class="form-group">
+        <label for="ticketId">Ticket ID:</label>
+        <div class="input-wrapper">
+          <input
+            id="ticketId"
+            type="text"
+            placeholder="e.g., TKT-001, TKT-002..."
+            maxlength="10"
+            autocomplete="off"
+            required
+          />
+          <button type="submit" id="checkBtn">Check Status</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="result-area" id="resultArea"></div>
+
+    <div class="demo-tickets">
+      <h3>📋 Demo Ticket IDs to Try:</h3>
+      <p><code>TKT-001</code> - Open ticket</p>
+      <p><code>TKT-002</code> - In Progress</p>
+      <p><code>TKT-003</code> - Resolved</p>
+      <p><code>TKT-004</code> - Closed</p>
+    </div>
+  </div>
+
+  <script>
+    // Mock ticket data
+    const ticketsDatabase = [
+      {
+        id: 'TKT-001',
+        title: 'Login page not loading',
+        status: 'open',
+        priority: 'high',
+        createdDate: '2026-05-06',
+        description: 'Users unable to access login page on Chrome browser',
+        assignedTo: 'John Smith',
+      },
+      {
+        id: 'TKT-002',
+        title: 'Database backup failure',
+        status: 'in-progress',
+        priority: 'critical',
+        createdDate: '2026-05-05',
+        description: 'Automated backup script failing at 2 AM UTC',
+        assignedTo: 'Sarah Johnson',
+      },
+      {
+        id: 'TKT-003',
+        title: 'Email notification delay',
+        status: 'resolved',
+        priority: 'medium',
+        createdDate: '2026-05-03',
+        description: 'Notifications were delayed by approximately 5 minutes',
+        assignedTo: 'Mike Davis',
+      },
+      {
+        id: 'TKT-004',
+        title: 'Legacy API deprecation',
+        status: 'closed',
+        priority: 'low',
+        createdDate: '2026-04-28',
+        description: 'v1 API endpoints no longer supported',
+        assignedTo: 'Admin',
+      },
+    ];
+
+    // Helper function to get status badge class
+    function getStatusClass(status) {
+      switch (status) {
+        case 'open':
+          return 'status-open';
+        case 'in-progress':
+          return 'status-in-progress';
+        case 'resolved':
+          return 'status-resolved';
+        case 'closed':
+          return 'status-closed';
+        default:
+          return '';
+      }
+    }
+
+    // Helper function to format status text
+    function formatStatus(status) {
+      return status
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
+    // Simulate API call with delay
+    function fetchTicketStatus(ticketId) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const ticket = ticketsDatabase.find((t) => t.id === ticketId.toUpperCase());
+
+          if (ticket) {
+            resolve(ticket);
+          } else {
+            reject(new Error('Ticket not found'));
+          }
+        }, 800); // 800ms delay to simulate API call
+      });
+    }
+
+    function displayLoading() {
+      const resultArea = document.getElementById('resultArea');
+      resultArea.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <div class="loading-text">Checking ticket status...</div>
+        </div>
+      `;
+    }
+
+    function displayError(message) {
+      const resultArea = document.getElementById('resultArea');
+      resultArea.innerHTML = `<div class="error-message">❌ ${message}</div>`;
+    }
+
+    function displayTicket(ticket) {
+      const resultArea = document.getElementById('resultArea');
+      const statusClass = getStatusClass(ticket.status);
+      const statusText = formatStatus(ticket.status);
+      let cardClass = 'ticket-card';
+
+      if (ticket.priority === 'critical') {
+        cardClass += ' error';
+      } else if (ticket.priority === 'high') {
+        cardClass += ' warning';
+      }
+
+      resultArea.innerHTML = `
+        <div class="success-message">✓ Ticket found</div>
+        <div class="${cardClass}">
+          <div class="ticket-header">
+            <span class="ticket-id">${ticket.id}</span>
+            <span class="ticket-status ${statusClass}">${statusText}</span>
+          </div>
+
+          <div class="ticket-row">
+            <div class="ticket-label">Title</div>
+            <div class="ticket-value">${ticket.title}</div>
+          </div>
+
+          <div class="ticket-row">
+            <div class="ticket-label">Priority</div>
+            <div class="ticket-value">${ticket.priority.toUpperCase()}</div>
+          </div>
+
+          <div class="ticket-row">
+            <div class="ticket-label">Created</div>
+            <div class="ticket-value">${ticket.createdDate}</div>
+          </div>
+
+          <div class="ticket-row">
+            <div class="ticket-label">Assigned To</div>
+            <div class="ticket-value">${ticket.assignedTo}</div>
+          </div>
+
+          <div class="ticket-row">
+            <div class="ticket-label">Description</div>
+            <div class="ticket-value">${ticket.description}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleCheckStatus(event) {
+      event.preventDefault();
+
+      const ticketIdInput = document.getElementById('ticketId');
+      const ticketId = ticketIdInput.value.trim();
+      const checkBtn = document.getElementById('checkBtn');
+
+      if (!ticketId) {
+        displayError('Please enter a ticket ID');
+        return;
+      }
+
+      checkBtn.disabled = true;
+      displayLoading();
+
+      fetchTicketStatus(ticketId)
+        .then((ticket) => {
+          displayTicket(ticket);
+        })
+        .catch((error) => {
+          displayError(error.message);
+        })
+        .finally(() => {
+          checkBtn.disabled = false;
+        });
+    }
+
+    // Allow Enter key to submit
+    document.getElementById('ticketId').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        handleCheckStatus(e);
+      }
+    });
+  </script>
+</body>
+</html>

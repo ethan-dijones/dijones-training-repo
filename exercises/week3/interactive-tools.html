@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Tools - Week 3</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #333;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-size: 14px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .display-box {
+      background: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 12px;
+      border-left: 4px solid #667eea;
+      min-height: 60px;
+      word-break: break-word;
+    }
+
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .calc-btn {
+      padding: 16px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    .calc-btn.operator {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .calc-display {
+      background: #333;
+      color: #00ff00;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: right;
+      font-size: 24px;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 12px;
+      min-height: 50px;
+      word-break: break-all;
+    }
+
+    .todo-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 12px;
+    }
+
+    .todo-item {
+      background: #f9f9f9;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border-left: 4px solid #667eea;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .todo-text {
+      flex-grow: 1;
+      margin-right: 12px;
+    }
+
+    .remove-btn {
+      background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .counter-display {
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+      color: #667eea;
+      margin: 24px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button-group button {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .empty-message {
+      color: #999;
+      font-style: italic;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Tools - Week 3 JavaScript Practice</h1>
+
+  <div class="container">
+    <!-- 1. Form that displays input as user types -->
+    <div class="card">
+      <h2>1. Live Form Display</h2>
+      <label for="formInput">Enter text:</label>
+      <input id="formInput" type="text" placeholder="Type something..." />
+      <div class="display-box">
+        <strong>Your input:</strong>
+        <p id="formOutput">Nothing yet...</p>
+      </div>
+    </div>
+
+    <!-- 2. Simple Calculator -->
+    <div class="card">
+      <h2>2. Simple Calculator</h2>
+      <div class="calc-display" id="calcDisplay">0</div>
+      <div class="calculator-grid">
+        <button class="calc-btn" onclick="appendToCalc('7')">7</button>
+        <button class="calc-btn" onclick="appendToCalc('8')">8</button>
+        <button class="calc-btn" onclick="appendToCalc('9')">9</button>
+        <button class="calc-btn operator" onclick="appendToCalc('/')">÷</button>
+
+        <button class="calc-btn" onclick="appendToCalc('4')">4</button>
+        <button class="calc-btn" onclick="appendToCalc('5')">5</button>
+        <button class="calc-btn" onclick="appendToCalc('6')">6</button>
+        <button class="calc-btn operator" onclick="appendToCalc('*')">×</button>
+
+        <button class="calc-btn" onclick="appendToCalc('1')">1</button>
+        <button class="calc-btn" onclick="appendToCalc('2')">2</button>
+        <button class="calc-btn" onclick="appendToCalc('3')">3</button>
+        <button class="calc-btn operator" onclick="appendToCalc('-')">−</button>
+
+        <button class="calc-btn" onclick="appendToCalc('0')" style="grid-column: span 2;">0</button>
+        <button class="calc-btn" onclick="appendToCalc('.')">.</button>
+        <button class="calc-btn operator" onclick="appendToCalc('+')">+</button>
+      </div>
+      <div class="button-group" style="margin-top: 12px;">
+        <button onclick="calculateResult()">=</button>
+        <button onclick="clearCalc()">C</button>
+      </div>
+    </div>
+
+    <!-- 3. To-Do List -->
+    <div class="card">
+      <h2>3. To-Do List</h2>
+      <label for="todoInput">Add a task:</label>
+      <div class="button-group">
+        <input id="todoInput" type="text" placeholder="Enter task..." />
+        <button onclick="addTodoItem()">Add</button>
+      </div>
+      <ul id="todoList" class="todo-list">
+        <li class="empty-message">No tasks yet. Add one to get started!</li>
+      </ul>
+    </div>
+
+    <!-- 4. Counter -->
+    <div class="card">
+      <h2>4. Counter</h2>
+      <div class="counter-display" id="counterDisplay">0</div>
+      <div class="button-group">
+        <button onclick="decrementCounter()">−</button>
+        <button onclick="resetCounter()">Reset</button>
+        <button onclick="incrementCounter()">+</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. Form that displays input as user types
+    const formInput = document.getElementById('formInput');
+    const formOutput = document.getElementById('formOutput');
+
+    formInput.addEventListener('input', function () {
+      const value = this.value;
+      formOutput.textContent = value || 'Nothing yet...';
+    });
+
+    // 2. Simple Calculator
+    let calcValue = '0';
+
+    function appendToCalc(value) {
+      if (calcValue === '0' && value !== '.') {
+        calcValue = value;
+      } else {
+        calcValue += value;
+      }
+      updateCalcDisplay();
+    }
+
+    function updateCalcDisplay() {
+      document.getElementById('calcDisplay').textContent = calcValue;
+    }
+
+    function calculateResult() {
+      try {
+        calcValue = String(eval(calcValue));
+      } catch (error) {
+        calcValue = 'Error';
+      }
+      updateCalcDisplay();
+    }
+
+    function clearCalc() {
+      calcValue = '0';
+      updateCalcDisplay();
+    }
+
+    // 3. To-Do List
+    let todos = [];
+
+    function addTodoItem() {
+      const input = document.getElementById('todoInput');
+      const task = input.value.trim();
+
+      if (task === '') {
+        alert('Please enter a task!');
+        return;
+      }
+
+      todos.push({
+        id: Date.now(),
+        text: task,
+      });
+
+      input.value = '';
+      renderTodos();
+    }
+
+    function removeTodoItem(id) {
+      todos = todos.filter((todo) => todo.id !== id);
+      renderTodos();
+    }
+
+    function renderTodos() {
+      const todoList = document.getElementById('todoList');
+
+      if (todos.length === 0) {
+        todoList.innerHTML = '<li class="empty-message">No tasks yet. Add one to get started!</li>';
+        return;
+      }
+
+      todoList.innerHTML = todos
+        .map(
+          (todo) => `
+        <li class="todo-item">
+          <span class="todo-text">${todo.text}</span>
+          <button class="remove-btn" onclick="removeTodoItem(${todo.id})">Remove</button>
+        </li>
+      `
+        )
+        .join('');
+    }
+
+    // 4. Counter
+    let counter = 0;
+
+    function incrementCounter() {
+      counter += 1;
+      updateCounterDisplay();
+    }
+
+    function decrementCounter() {
+      counter -= 1;
+      updateCounterDisplay();
+    }
+
+    function resetCounter() {
+      counter = 0;
+      updateCounterDisplay();
+    }
+
+    function updateCounterDisplay() {
+      document.getElementById('counterDisplay').textContent = counter;
+    }
+
+    // Allow Enter key in to-do input
+    document.getElementById('todoInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        addTodoItem();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOM Manipulation Examples</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .example {
+      background: white;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .example h2 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .example p {
+      color: #666;
+      margin: 10px 0;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px 5px 5px 0;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 5px 5px 5px 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toggle-box {
+      background-color: #e8f4f8;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+
+    .toggle-box.hidden {
+      display: none;
+    }
+
+    .output {
+      background-color: #f9f9f9;
+      border-left: 4px solid #007bff;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+    }
+
+    #todo-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    #todo-list li {
+      background: #f9f9f9;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 4px;
+      border-left: 4px solid #28a745;
+    }
+  </style>
+</head>
+<body>
+  <h1>DOM Manipulation Learning Examples</h1>
+  <p>Five essential techniques for working with HTML elements using JavaScript.</p>
+
+  <!-- Example 1: Select button and add click event -->
+  <div class="example">
+    <h2>1. Select Button with ID and Add Click Event</h2>
+    <p>
+      <code>document.getElementById('submit-btn')</code> selects an element by its unique ID, then
+      <code>.addEventListener('click', ...)</code> attaches a click handler.
+    </p>
+    <button id="submit-btn">Click Me!</button>
+    <div id="clickOutput" class="output"></div>
+  </div>
+
+  <!-- Example 2: Toggle visibility of element -->
+  <div class="example">
+    <h2>2. Function to Toggle Visibility of an Element</h2>
+    <p>
+      Use a function to toggle the <code>display</code> CSS property or add/remove a
+      <code>.hidden</code> class. This example shows both approaches.
+    </p>
+    <button onclick="toggleVisibility('toggleBox')">Toggle Visibility</button>
+    <div id="toggleBox" class="toggle-box">
+      This box can be hidden and shown by clicking the button above.
+    </div>
+  </div>
+
+  <!-- Example 3: Get input value on button click -->
+  <div class="example">
+    <h2>3. Get Input Field Value When Button is Clicked</h2>
+    <p>
+      Read the <code>.value</code> property of an input field when the button is clicked, then use
+      that value in your code.
+    </p>
+    <input id="userInput" type="text" placeholder="Enter your name..." />
+    <button id="getValueBtn">Submit Name</button>
+    <div id="inputOutput" class="output"></div>
+  </div>
+
+  <!-- Example 4: Change text content based on user action -->
+  <div class="example">
+    <h2>4. Change Text Content of an Element Based on User Action</h2>
+    <p>
+      Modify an element's text using <code>.textContent</code> or
+      <code>.innerHTML</code> when the user performs an action.
+    </p>
+    <button onclick="changeTextContent()">Update Message</button>
+    <p id="messageBox">Original message. Click the button to change me!</p>
+  </div>
+
+  <!-- Example 5: Add new list item to ul -->
+  <div class="example">
+    <h2>5. Add a New List Item to an Existing UL Element</h2>
+    <p>
+      Create a new <code>&lt;li&gt;</code> element, set its content, and append it to the list
+      using <code>.appendChild()</code>.
+    </p>
+    <input id="itemInput" type="text" placeholder="Enter item name..." />
+    <button id="addItemBtn">Add Item to List</button>
+    <ul id="todo-list">
+      <li>Example item 1</li>
+      <li>Example item 2</li>
+    </ul>
+  </div>
+
+  <script>
+    // Example 1: Select the button with id 'submit-btn' and add click event
+    const submitBtn = document.getElementById('submit-btn');
+    let clickCount = 0;
+
+    submitBtn.addEventListener('click', function () {
+      clickCount += 1;
+      const output = document.getElementById('clickOutput');
+      output.textContent = `Button clicked ${clickCount} time${clickCount !== 1 ? 's' : ''}!`;
+    });
+
+    // Example 2: Function to toggle visibility of an element
+    function toggleVisibility(elementId) {
+      const element = document.getElementById(elementId);
+      element.classList.toggle('hidden');
+    }
+
+    // Example 3: Get value from input field when button is clicked
+    const getValueBtn = document.getElementById('getValueBtn');
+    const userInput = document.getElementById('userInput');
+    const inputOutput = document.getElementById('inputOutput');
+
+    getValueBtn.addEventListener('click', function () {
+      const value = userInput.value;
+      if (value.trim() === '') {
+        inputOutput.textContent = 'Please enter a name!';
+      } else {
+        inputOutput.textContent = `Hello, ${value}! Nice to meet you.`;
+      }
+    });
+
+    // Example 4: Change text content of an element based on user action
+    let messageState = false;
+
+    function changeTextContent() {
+      const messageBox = document.getElementById('messageBox');
+      if (messageState) {
+        messageBox.textContent = 'Original message. Click the button to change me!';
+        messageState = false;
+      } else {
+        messageBox.textContent = 'This message was changed by JavaScript!';
+        messageState = true;
+      }
+    }
+
+    // Example 5: Add a new list item to an existing ul element
+    const addItemBtn = document.getElementById('addItemBtn');
+    const itemInput = document.getElementById('itemInput');
+    const todoList = document.getElementById('todo-list');
+
+    addItemBtn.addEventListener('click', function () {
+      const itemText = itemInput.value.trim();
+
+      if (itemText === '') {
+        alert('Please enter an item name!');
+        return;
+      }
+
+      const newItem = document.createElement('li');
+      newItem.textContent = itemText;
+      todoList.appendChild(newItem);
+      itemInput.value = '';
+    });
+  </script>
+</body>
+</html>

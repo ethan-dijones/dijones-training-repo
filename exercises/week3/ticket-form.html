@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .clear-btn:hover {
+            background-color: #da190b;
+        }
+        .display-area {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+        .display-area.active {
+            display: block;
+        }
+        .display-area h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .display-item {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .display-label {
+            font-weight: bold;
+            color: #555;
+        }
+        .faq-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #ddd;
+        }
+        .faq-item {
+            margin: 15px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .faq-item.active {
+            background-color: #e8f5e9;
+            border-color: #4CAF50;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+        .faq-item.active .faq-question {
+            background-color: #c8e6c9;
+        }
+        .faq-question:hover {
+            background-color: #e0e0e0;
+        }
+        .faq-item.active .faq-question:hover {
+            background-color: #a5d6a7;
+        }
+        .faq-toggle-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .faq-toggle-btn:hover {
+            background-color: #1976D2;
+        }
+        .faq-item.active .faq-toggle-btn {
+            background-color: #4CAF50;
+        }
+        .faq-item.active .faq-toggle-btn:hover {
+            background-color: #45a049;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background-color: white;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 15px;
+        }
+        .faq-answer p {
+            margin: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Support Ticket Form</h1>
+        
+        <form id="ticketForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="description">Issue Description:</label>
+            <textarea id="description" name="description" required></textarea>
+            
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Submit</button>
+                <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>
+            </div>
+        </form>
+        
+        <div class="display-area" id="displayArea">
+            <h2>Submitted Data</h2>
+            <div class="display-item">
+                <span class="display-label">Name:</span>
+                <span id="displayName"></span>
+            </div>
+            <div class="display-item">
+                <span class="display-label">Email:</span>
+                <span id="displayEmail"></span>
+            </div>
+            <div class="display-item">
+                <span class="display-label">Issue Description:</span>
+                <div id="displayDescription" style="white-space: pre-wrap; margin-top: 5px;"></div>
+            </div>
+        </div>
+
+        <!-- Interactive FAQ Section -->
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <p>Click on questions to reveal answers. Watch the button text and colors change!</p>
+
+            <div class="faq-item" id="faq-1">
+                <div class="faq-question" onclick="toggleFaq(1)">
+                    <span>How do I submit a support ticket?</span>
+                    <button class="faq-toggle-btn" onclick="event.stopPropagation()">Show Answer</button>
+                </div>
+                <div class="faq-answer">
+                    <p>You can submit a support ticket by filling out the form above with your name, email, and issue description. Click the "Submit" button and your ticket will be recorded. Our team will respond within 24 hours during business hours.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="faq-2">
+                <div class="faq-question" onclick="toggleFaq(2)">
+                    <span>What is the average resolution time?</span>
+                    <button class="faq-toggle-btn" onclick="event.stopPropagation()">Show Answer</button>
+                </div>
+                <div class="faq-answer">
+                    <p>Resolution time depends on the priority of your ticket. Low-priority issues are typically resolved within 48 hours, medium-priority within 24 hours, and high-priority issues are addressed within 4 hours. Critical system outages receive immediate attention from our team.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="faq-3">
+                <div class="faq-question" onclick="toggleFaq(3)">
+                    <span>Can I update my ticket after submission?</span>
+                    <button class="faq-toggle-btn" onclick="event.stopPropagation()">Show Answer</button>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! You can update your ticket by replying to the confirmation email you receive after submission. Include your ticket ID in your response and any additional details that might help our team resolve the issue faster.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="faq-4">
+                <div class="faq-question" onclick="toggleFaq(4)">
+                    <span>What are your support hours?</span>
+                    <button class="faq-toggle-btn" onclick="event.stopPropagation()">Show Answer</button>
+                </div>
+                <div class="faq-answer">
+                    <p>Our helpdesk is available Monday through Friday, 8:00 AM to 6:00 PM local time. You can submit tickets anytime through our online form. Emergency support for critical system outages is available 24/7 by calling our emergency line.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" id="faq-5">
+                <div class="faq-question" onclick="toggleFaq(5)">
+                    <span>Do you offer remote or on-site support?</span>
+                    <button class="faq-toggle-btn" onclick="event.stopPropagation()">Show Answer</button>
+                </div>
+                <div class="faq-answer">
+                    <p>We offer both remote and on-site support depending on the nature of the issue. Most software and configuration issues are handled remotely for faster resolution. Hardware issues, system installations, and network troubleshooting typically require on-site visits, which can be scheduled at your convenience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ticket Form Functionality
+        const form = document.getElementById('ticketForm');
+        const displayArea = document.getElementById('displayArea');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const description = document.getElementById('description').value;
+            
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('displayEmail').textContent = email;
+            document.getElementById('displayDescription').textContent = description;
+            
+            displayArea.classList.add('active');
+        });
+
+        function clearForm() {
+            form.reset();
+            displayArea.classList.remove('active');
+        }
+
+        // Interactive FAQ Functionality
+        function toggleFaq(faqId) {
+            const faqItem = document.getElementById('faq-' + faqId);
+            const toggleBtn = faqItem.querySelector('.faq-toggle-btn');
+            
+            faqItem.classList.toggle('active');
+            
+            if (faqItem.classList.contains('active')) {
+                toggleBtn.textContent = 'Hide Answer';
+            } else {
+                toggleBtn.textContent = 'Show Answer';
+            }
+        }
+    </script>
+</body>
+</html>
