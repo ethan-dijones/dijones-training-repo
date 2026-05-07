@@ -1,0 +1,11 @@
+ticket_id,status,priority,assigned_to,created_date
+1001,open,high,John,2024-04-15
+1002,closed,low,Sarah,2024-04-16
+1003,open,medium,John,2024-04-17
+1004,closed,high,Mike,2024-04-18
+1005,open,low,Sarah,2024-04-19
+1006,open,high,John,2024-04-20
+1007,closed,medium,Mike,2024-04-21
+1008,open,low,Emma,2024-04-22
+1009,closed,high,Sarah,2024-04-23
+1010,open,medium,Emma,2024-04-24

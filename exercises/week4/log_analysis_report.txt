@@ -1,0 +1,25 @@
+==================================================
+LOG ANALYSIS REPORT
+==================================================
+
+Total Log Entries: 10
+
+LOG LEVEL BREAKDOWN:
+  ERROR        :   3 entries ( 30.0%)
+  INFO         :   5 entries ( 50.0%)
+  WARNING      :   2 entries ( 20.0%)
+
+--------------------------------------------------
+
+CRITICAL ERRORS (3 found):
+  [2024-05-01 09:16:45] Database connection failed
+  [2024-05-01 09:19:05] Authentication failed
+  [2024-05-01 09:23:18] API timeout occurred
+
+--------------------------------------------------
+
+WARNINGS (2 found):
+  [2024-05-01 09:17:12] Low disk space
+  [2024-05-01 09:21:33] Memory usage at 85%
+
+==================================================

@@ -1,0 +1,72 @@
+/* Style the header with dark background and white text */
+h1 {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Add padding and margins to the main content */
+p {
+    padding: 15px;
+    margin: 20px;
+    font-size: 18px;
+}
+
+/* Style all paragraphs with a custom font and color */ 
+p {
+    font-family: Arial, sans-serif;
+    color: #555;
+}
+
+/* Create a hover effect for links */   
+a:hover {
+    color: #007BFF;
+    text-decoration: underline;
+}
+
+/* Make the profile image circular with a border */
+img {
+    border-radius: 50%;
+    border: 4px solid #333;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* Center the main content with max-width */
+body {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Add responsive padding and margins to sections */
+section {
+    padding: 20px;
+    margin: 15px 0;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        padding: 15px;
+        font-size: 24px;
+    }
+
+    p {
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    img {
+        width: 120px;
+        height: 120px;
+    }
+
+    section {
+        padding: 15px;
+        margin: 10px 0;
+    }
+}
+

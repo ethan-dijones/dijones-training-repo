@@ -1,0 +1,8 @@
+Log Analysis Summary
+==============================
+Total entries: 10
+
+Breakdown by level:
+  ERROR: 3
+  INFO: 5
+  WARNING: 2

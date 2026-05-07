@@ -4,6 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First Page</title>
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        .faq-container {
+            margin-top: 40px;
+        }
+
+        .faq-item {
+            margin: 10px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-item.even {
+            background-color: #f0f0f0;
+        }
+
+        .faq-item.odd {
+            background-color: #e8f4f8;
+        }
+
+        .faq-item summary {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .faq-item summary:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-item details[open] summary {
+            border-bottom: 2px solid #333;
+        }
+
+        .faq-item p {
+            padding: 0 15px 15px 15px;
+            margin: 0;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
     <h1>My Helpdesk Team</h1>
@@ -15,5 +58,36 @@
         <li>User Assistance</li>
         <li>System Troubleshooting</li>
     </ul>
+
+    <!-- Create an FAQ section with collapsible questions -->
+    <section class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+
+        <!-- Each FAQ should have a question heading and answer paragraph -->
+        <details class="faq-item odd">
+            <summary>How do I submit a support ticket?</summary>
+            <p>You can submit a support ticket through our online portal by filling out the ticket form with your name, email, issue description, and priority level. Our team will acknowledge your ticket within 2 hours during business hours.</p>
+        </details>
+
+        <details class="faq-item even">
+            <summary>What is the average resolution time?</summary>
+            <p>Resolution time depends on ticket priority. Low-priority issues are typically resolved within 48 hours, medium-priority within 24 hours, and high-priority issues are addressed within 4 hours. Critical issues receive immediate attention.</p>
+        </details>
+
+        <details class="faq-item odd">
+            <summary>Can I request a specific technician?</summary>
+            <p>While we cannot guarantee a specific technician, you can add a note in your ticket request if you have worked with someone previously and had a positive experience. We will do our best to accommodate your preference.</p>
+        </details>
+
+        <details class="faq-item even">
+            <summary>What are your support hours?</summary>
+            <p>Our helpdesk is available Monday through Friday, 8:00 AM to 6:00 PM local time. Emergency support for critical system outages is available 24/7. You can submit tickets anytime through our online portal.</p>
+        </details>
+
+        <details class="faq-item odd">
+            <summary>Do you offer remote or onsite support?</summary>
+            <p>We offer both remote and onsite support. Remote support is available for most software and configuration issues. Onsite support is typically scheduled for hardware issues, system installations, and network troubleshooting.</p>
+        </details>
+    </section>
 </body>
 </html>

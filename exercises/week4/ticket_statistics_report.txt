@@ -1,0 +1,27 @@
+======================================================================
+TICKET STATISTICS REPORT
+======================================================================
+
+OVERALL STATISTICS:
+----------------------------------------------------------------------
+Total Tickets: 10
+  Closed    :   4 ( 40.0%)
+  Open      :   6 ( 60.0%)
+
+TICKETS PER ASSIGNED PERSON:
+----------------------------------------------------------------------
+  John           :   3 tickets
+  Sarah          :   3 tickets
+  Emma           :   2 tickets
+  Mike           :   2 tickets
+
+TICKETS BY PRIORITY:
+----------------------------------------------------------------------
+  High      :   4 total (2 open, 2 closed)
+  Low       :   3 total (2 open, 1 closed)
+  Medium    :   3 total (2 open, 1 closed)
+
+======================================================================
+
+
+TICKETS ASSIGNED BY PERSON:
